@@ -2,6 +2,7 @@ import { useApplyObjectFilterDropdownFilterValue } from '@/object-record/object-
 import { fieldMetadataItemUsedInDropdownComponentSelector } from '@/object-record/object-filter-dropdown/states/fieldMetadataItemUsedInDropdownComponentSelector';
 import { objectFilterDropdownCurrentRecordFilterComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownCurrentRecordFilterComponentState';
 import { getCountryFlagMenuItemAvatar } from '@/object-record/object-filter-dropdown/utils/getCountryFlagMenuItemAvatar';
+import { parseFilterValueStringArray } from '@/object-record/object-filter-dropdown/utils/parseFilterValueStringArray';
 import { turnCountryIntoSelectableItem } from '@/object-record/object-filter-dropdown/utils/turnCountryIntoSelectableItem';
 import { type SelectableItem } from '@/object-record/select/types/SelectableItem';
 import { useCountries } from '@/ui/input/components/internal/hooks/useCountries';
@@ -12,7 +13,6 @@ import { DropdownMenuSeparator } from '@/ui/layout/dropdown/components/DropdownM
 import { GenericDropdownContentWidth } from '@/ui/layout/dropdown/constants/GenericDropdownContentWidth';
 import { useRecoilComponentValue } from '@/ui/utilities/state/component-state/hooks/useRecoilComponentValue';
 import { useLingui } from '@lingui/react/macro';
-import { isNonEmptyString } from '@sniptt/guards';
 import { type ChangeEvent, useState } from 'react';
 import { isDefined } from 'twenty-shared/utils';
 import { MenuItem, MenuItemMultiSelectAvatar } from 'twenty-ui/navigation';
@@ -40,22 +40,22 @@ export const ObjectFilterDropdownCountrySelect = () => {
     turnCountryIntoSelectableItem,
   );
 
-  const selectedCountryNames = isNonEmptyString(
+  const selectedCountryNames = parseFilterValueStringArray(
     objectFilterDropdownCurrentRecordFilter?.value,
-  )
-    ? (JSON.parse(objectFilterDropdownCurrentRecordFilter.value) as string[]) // TODO: replace by a safe parse
-    : [];
+  );
+  const selectedCountryNameSet = new Set(selectedCountryNames);
+  const normalizedSearchText = searchText.toLowerCase();
 
   const filteredSelectableItems = countriesAsSelectableItems.filter(
     (selectableItem) =>
-      selectableItem.name.toLowerCase().includes(searchText.toLowerCase()) &&
-      !selectedCountryNames.includes(selectableItem.name),
+      selectableItem.name.toLowerCase().includes(normalizedSearchText) &&
+      !selectedCountryNameSet.has(selectableItem.name),
   );
 
   const filteredSelectedItems = countriesAsSelectableItems.filter(
     (selectableItem) =>
-      selectableItem.name.toLowerCase().includes(searchText.toLowerCase()) &&
-      selectedCountryNames.includes(selectableItem.name),
+      selectableItem.name.toLowerCase().includes(normalizedSearchText) &&
+      selectedCountryNameSet.has(selectableItem.name),
   );
 
   const handleMultipleItemSelectChange = (

@@ -3,13 +3,13 @@ import { fieldMetadataItemUsedInDropdownComponentSelector } from '@/object-recor
 import { objectFilterDropdownCurrentRecordFilterComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownCurrentRecordFilterComponentState';
 import { objectFilterDropdownSearchInputComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownSearchInputComponentState';
 import { getActorSourceMultiSelectOptions } from '@/object-record/object-filter-dropdown/utils/getActorSourceMultiSelectOptions';
+import { parseFilterValueStringArray } from '@/object-record/object-filter-dropdown/utils/parseFilterValueStringArray';
 import { MultipleSelectDropdown } from '@/object-record/select/components/MultipleSelectDropdown';
 import { type SelectableItem } from '@/object-record/select/types/SelectableItem';
 import { DropdownContent } from '@/ui/layout/dropdown/components/DropdownContent';
 import { GenericDropdownContentWidth } from '@/ui/layout/dropdown/constants/GenericDropdownContentWidth';
 import { useRecoilComponentValue } from '@/ui/utilities/state/component-state/hooks/useRecoilComponentValue';
 import { t } from '@lingui/core/macro';
-import { isNonEmptyString } from '@sniptt/guards';
 import { isDefined } from 'twenty-shared/utils';
 
 export const EMPTY_FILTER_VALUE = '[]';
@@ -35,16 +35,15 @@ export const ObjectFilterDropdownSourceSelect = ({
   const { applyObjectFilterDropdownFilterValue } =
     useApplyObjectFilterDropdownFilterValue();
 
-  const selectedSources = isNonEmptyString(
+  const selectedSources = parseFilterValueStringArray(
     objectFilterDropdownCurrentRecordFilter?.value,
-  )
-    ? (JSON.parse(objectFilterDropdownCurrentRecordFilter.value) as string[]) // TODO: replace by a safe parse
-    : [];
+  );
+  const selectedSourceSet = new Set(selectedSources);
 
   const sourceTypes = getActorSourceMultiSelectOptions(selectedSources);
 
   const filteredSelectedItems = sourceTypes.filter((option) =>
-    selectedSources.includes(option.id),
+    selectedSourceSet.has(option.id),
   );
 
   const handleMultipleItemSelectChange = (
