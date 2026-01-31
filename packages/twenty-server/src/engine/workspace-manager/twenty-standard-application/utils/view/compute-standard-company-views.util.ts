@@ -22,5 +22,17 @@ export const computeStandardCompanyViews = (
         icon: 'IconList',
       },
     }),
+    customerSuccess: createStandardViewFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        name: 'Customer Success',
+        type: ViewType.TABLE,
+        key: null,
+        position: 1,
+        icon: 'IconHeart',
+      },
+    }),
   };
 };
