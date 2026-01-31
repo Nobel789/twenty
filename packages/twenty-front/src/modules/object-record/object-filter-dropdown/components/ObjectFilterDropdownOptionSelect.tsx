@@ -13,13 +13,13 @@ import { ObjectFilterDropdownComponentInstanceContext } from '@/object-record/ob
 import { fieldMetadataItemUsedInDropdownComponentSelector } from '@/object-record/object-filter-dropdown/states/fieldMetadataItemUsedInDropdownComponentSelector';
 import { objectFilterDropdownCurrentRecordFilterComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownCurrentRecordFilterComponentState';
 import { objectFilterDropdownSearchInputComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownSearchInputComponentState';
+import { parseFilterValueStringArray } from '@/object-record/object-filter-dropdown/utils/parseFilterValueStringArray';
 import { useCloseDropdown } from '@/ui/layout/dropdown/hooks/useCloseDropdown';
 import { selectedItemIdComponentState } from '@/ui/layout/selectable-list/states/selectedItemIdComponentState';
 import { useHotkeysOnFocusedElement } from '@/ui/utilities/hotkey/hooks/useHotkeysOnFocusedElement';
 import { useAvailableComponentInstanceIdOrThrow } from '@/ui/utilities/state/component-state/hooks/useAvailableComponentInstanceIdOrThrow';
 import { useRecoilComponentValue } from '@/ui/utilities/state/component-state/hooks/useRecoilComponentValue';
 import { t } from '@lingui/core/macro';
-import { isNonEmptyString } from '@sniptt/guards';
 import { MAX_OPTIONS_TO_DISPLAY } from 'twenty-shared/constants';
 import { isDefined } from 'twenty-shared/utils';
 import { MenuItem, MenuItemMultiSelect } from 'twenty-ui/navigation';
@@ -56,11 +56,9 @@ export const ObjectFilterDropdownOptionSelect = ({
 
   const selectedOptions = useMemo(
     () =>
-      isNonEmptyString(objectFilterDropdownCurrentRecordFilter?.value)
-        ? (JSON.parse(
-            objectFilterDropdownCurrentRecordFilter.value,
-          ) as string[]) // TODO: replace by a safe parse
-        : [],
+      parseFilterValueStringArray(
+        objectFilterDropdownCurrentRecordFilter?.value,
+      ),
     [objectFilterDropdownCurrentRecordFilter?.value],
   );
 
@@ -83,8 +81,9 @@ export const ObjectFilterDropdownOptionSelect = ({
 
   useEffect(() => {
     if (isDefined(selectOptions)) {
+      const selectedOptionSet = new Set(selectedOptions);
       const options = selectOptions.map((option) => {
-        const isSelected = selectedOptions?.includes(option.value) ?? false;
+        const isSelected = selectedOptionSet.has(option.value);
 
         return {
           ...option,

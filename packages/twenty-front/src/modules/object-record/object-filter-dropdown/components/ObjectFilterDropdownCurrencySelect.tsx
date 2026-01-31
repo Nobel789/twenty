@@ -1,6 +1,7 @@
 import { useApplyObjectFilterDropdownFilterValue } from '@/object-record/object-filter-dropdown/hooks/useApplyObjectFilterDropdownFilterValue';
 import { fieldMetadataItemUsedInDropdownComponentSelector } from '@/object-record/object-filter-dropdown/states/fieldMetadataItemUsedInDropdownComponentSelector';
 import { objectFilterDropdownCurrentRecordFilterComponentState } from '@/object-record/object-filter-dropdown/states/objectFilterDropdownCurrentRecordFilterComponentState';
+import { parseFilterValueStringArray } from '@/object-record/object-filter-dropdown/utils/parseFilterValueStringArray';
 import { turnCurrencyIntoSelectableItem } from '@/object-record/object-filter-dropdown/utils/turnCurrencyIntoSelectableItem';
 import { type SelectableItem } from '@/object-record/select/types/SelectableItem';
 import { CURRENCIES } from '@/settings/data-model/constants/Currencies';
@@ -11,7 +12,6 @@ import { DropdownMenuSeparator } from '@/ui/layout/dropdown/components/DropdownM
 import { GenericDropdownContentWidth } from '@/ui/layout/dropdown/constants/GenericDropdownContentWidth';
 import { useRecoilComponentValue } from '@/ui/utilities/state/component-state/hooks/useRecoilComponentValue';
 import { useLingui } from '@lingui/react/macro';
-import { isNonEmptyString } from '@sniptt/guards';
 import { type ChangeEvent, useState } from 'react';
 import { isDefined } from 'twenty-shared/utils';
 import { MenuItem, MenuItemMultiSelectAvatar } from 'twenty-ui/navigation';
@@ -37,22 +37,22 @@ export const ObjectFilterDropdownCurrencySelect = () => {
     turnCurrencyIntoSelectableItem,
   );
 
-  const selectedCurrencies = isNonEmptyString(
+  const selectedCurrencies = parseFilterValueStringArray(
     objectFilterDropdownCurrentRecordFilter?.value,
-  )
-    ? (JSON.parse(objectFilterDropdownCurrentRecordFilter.value) as string[]) // TODO: replace by a safe parse
-    : [];
+  );
+  const selectedCurrencySet = new Set(selectedCurrencies);
+  const normalizedSearchText = searchText.toLowerCase();
 
   const filteredSelectableItems = currenciesAsSelectableItems.filter(
     (selectableItem) =>
-      selectableItem.name.toLowerCase().includes(searchText.toLowerCase()) &&
-      !selectedCurrencies.includes(selectableItem.id),
+      selectableItem.name.toLowerCase().includes(normalizedSearchText) &&
+      !selectedCurrencySet.has(selectableItem.id),
   );
 
   const filteredSelectedItems = currenciesAsSelectableItems.filter(
     (selectableItem) =>
-      selectableItem.name.toLowerCase().includes(searchText.toLowerCase()) &&
-      selectedCurrencies.includes(selectableItem.id),
+      selectableItem.name.toLowerCase().includes(normalizedSearchText) &&
+      selectedCurrencySet.has(selectableItem.id),
   );
 
   const { t } = useLingui();
