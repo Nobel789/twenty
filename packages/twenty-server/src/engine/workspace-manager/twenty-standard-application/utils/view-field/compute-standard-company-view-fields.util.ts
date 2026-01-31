@@ -109,5 +109,77 @@ export const computeStandardCompanyViewFields = (
         aggregateOperation: AggregateOperations.COUNT_NOT_EMPTY,
       },
     }),
+    customerSuccessName: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'name',
+        fieldName: 'name',
+        position: 0,
+        isVisible: true,
+        size: 180,
+      },
+    }),
+    customerSuccessHealthScore: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'healthScore',
+        fieldName: 'healthScore',
+        position: 1,
+        isVisible: true,
+        size: 120,
+      },
+    }),
+    customerSuccessHealthStatus: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'healthStatus',
+        fieldName: 'healthStatus',
+        position: 2,
+        isVisible: true,
+        size: 140,
+      },
+    }),
+    customerSuccessRenewalDate: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'renewalDate',
+        fieldName: 'renewalDate',
+        position: 3,
+        isVisible: true,
+        size: 150,
+      },
+    }),
+    customerSuccessChurnRisk: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'churnRisk',
+        fieldName: 'churnRisk',
+        position: 4,
+        isVisible: true,
+        size: 130,
+      },
+    }),
+    customerSuccessChurnRiskAlert: createStandardViewFieldFlatMetadata({
+      ...args,
+      objectName: 'company',
+      context: {
+        viewName: 'customerSuccess',
+        viewFieldName: 'churnRiskAlert',
+        fieldName: 'churnRiskAlert',
+        position: 5,
+        isVisible: true,
+        size: 130,
+      },
+    }),
   };
 };

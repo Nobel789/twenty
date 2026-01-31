@@ -41,6 +41,11 @@ export class CompanyWorkspaceEntity {
   annualRecurringRevenue: CurrencyMetadata | null;
   address: AddressMetadata;
   idealCustomerProfile: boolean;
+  healthScore: number | null;
+  healthStatus: string | null;
+  renewalDate: string | null;
+  churnRisk: string | null;
+  churnRiskAlert: boolean;
   position: number;
   createdBy: ActorMetadata;
   updatedBy: ActorMetadata;

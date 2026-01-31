@@ -408,6 +408,21 @@ export const STANDARD_OBJECTS = {
       idealCustomerProfile: {
         universalIdentifier: COMPANY_STANDARD_FIELD_IDS.idealCustomerProfile,
       },
+      healthScore: {
+        universalIdentifier: COMPANY_STANDARD_FIELD_IDS.healthScore,
+      },
+      healthStatus: {
+        universalIdentifier: COMPANY_STANDARD_FIELD_IDS.healthStatus,
+      },
+      renewalDate: {
+        universalIdentifier: COMPANY_STANDARD_FIELD_IDS.renewalDate,
+      },
+      churnRisk: {
+        universalIdentifier: COMPANY_STANDARD_FIELD_IDS.churnRisk,
+      },
+      churnRiskAlert: {
+        universalIdentifier: COMPANY_STANDARD_FIELD_IDS.churnRiskAlert,
+      },
       position: { universalIdentifier: COMPANY_STANDARD_FIELD_IDS.position },
       createdBy: { universalIdentifier: COMPANY_STANDARD_FIELD_IDS.createdBy },
       updatedBy: { universalIdentifier: COMPANY_STANDARD_FIELD_IDS.updatedBy },
@@ -473,6 +488,29 @@ export const STANDARD_OBJECTS = {
           },
           address: {
             universalIdentifier: '20202020-af01-4a01-8a01-c0aba11cf008',
+          },
+        },
+      },
+      customerSuccess: {
+        universalIdentifier: 'cb0ecf3d-7d20-4042-a405-af43c5871621',
+        viewFields: {
+          name: {
+            universalIdentifier: 'b5eb570a-0372-4ec4-9400-67114f7a4cd5',
+          },
+          healthScore: {
+            universalIdentifier: '1ff25787-ad73-41ab-a5a4-21bbbae034fd',
+          },
+          healthStatus: {
+            universalIdentifier: 'cd6151d5-1f73-4164-92db-414abd8c4c08',
+          },
+          renewalDate: {
+            universalIdentifier: '3a579fa5-49c7-4c44-a0e5-ac3697633bf4',
+          },
+          churnRisk: {
+            universalIdentifier: 'a2e8d94c-8d33-4a40-b95b-2c2cf7352c47',
+          },
+          churnRiskAlert: {
+            universalIdentifier: '600d936b-c02c-421f-aeed-8ddede1d83df',
           },
         },
       },
